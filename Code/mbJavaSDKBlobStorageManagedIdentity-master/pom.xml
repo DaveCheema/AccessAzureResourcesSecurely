@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.3.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>spring-boot</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>spring-boot</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+
+<dependency>
+   <groupId>com.azure</groupId>
+   <artifactId>azure-storage-blob</artifactId>
+   <version>12.9.0</version>
+</dependency>
+
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-identity</artifactId>
+      <version>1.0.3</version>
+    </dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- tag::actuator[] -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!-- end::actuator[] -->
+
+		<!-- tag::tests[] -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<!-- end::tests[] -->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+
+<plugin>
+ <groupId>com.microsoft.azure</groupId>
+ <artifactId>azure-webapp-maven-plugin</artifactId>
+ <version>1.9.0</version>
+ <configuration>
+   <deploymentType>jar</deploymentType>
+
+   <!-- configure app to run on port 80, required by App Service -->
+   <appSettings>
+     <property>
+       <name>JAVA_OPTS</name>
+       <value>-Dserver.port=80</value>
+     </property>
+   </appSettings>
+
+   <!-- Web App information -->
+   <!--<resourceGroup>changeThis-resourcegrp</resourceGroup>
+   <appName>changeThis-appname</appName> -->
+   <resourceGroup>dc1-rg</resourceGroup>
+   <appServicePlanName>ASP-dc1rg-9468</appServicePlanName>
+   <appName>dc1-app-service1</appName>
+   <region>westus</region>
+
+   <!-- Java Runtime Stack for Web App on Linux-->
+
+   <linuxRuntime>jre8</linuxRuntime>
+
+                    <resources>
+                        <resource>
+                            <directory>${project.basedir}/target</directory>
+                            <targetPath>/</targetPath>
+                            <includes>
+                                <include>*.jar</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <directory>${project.basedir}</directory>
+                            <targetPath>/</targetPath>
+                        </resource>
+                    </resources>
+
+ </configuration>
+</plugin>
+
+
+
+		</plugins>
+	</build>
+
+</project>
