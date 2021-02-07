@@ -1,0 +1,54 @@
+Azure Setup
+	1. Resource creation: 
+		a. Create resource group.
+		b. Create Linux app service plan.
+		c. Create two java web apps.
+		d. Create a storage account.
+		e. Create a managed identity.
+Storage Account Setup
+	1. Create a container then upload a test file into the container.
+System Identity
+	1. Select a webapp and then select Identity
+		a. Change to on and click save.
+		b. Click "Azure role assignments" and assign the following roles to your storage account.
+			i. Storage Account Contributor
+			ii. Storage Blob Data Contributor
+			iii. Storage Queue Data Contributor
+	2. Enable Logging (optional)
+	3. FTP into your app.
+		a. Create a folder "data" in the wwwroot.
+		b. Add your jar file to the wwwroot or deploy using maven clean package azure-webapp:deploy
+	4. After building and deploying you can browse your site, and the file in your storage account specified in code will be downloaded into the wwwroot\data folder.
+User Identity
+	1. Go to the Managed Identity Azure object.
+		a. Select Azure roles assignments
+		b. Assign the following roles to your storage account.
+			i. Storage Account Contributor
+			ii. Storage Blob Data Contributor
+			iii. Storage Queue Data Contributor
+	2. Go to the webapp and select Identity
+		a. Click on "User assigned" tab
+		b. Add your Managed identity Object.
+	3. FTP  into your app.
+		a. Create a folder "data" in the wwwroot.
+		b. Add your jar file to the wwwroot or deploy using maven clean package azure-webapp:deploy
+	4. After building and deploying you can browse your site, and the file in your storage account specified in code will be downloaded into the wwwroot\data folder.
+
+Project file setup steps.
+	1. Git clone https://github.com/milindvb/mbJavaSDKBlobStorageUserManagedIdentity.git
+	2. Git clone https://github.com/milindvb/mbJavaSDKBlobStorageManagedIdentity.git
+	3. Remove whitespace from pom.xml at the top if it's there.
+	4. In pom.xml replace the following values in the configuration section.
+		a. (optional)<subscriptionId>ID</subscriptionId>
+		b. <resourceGroup>rd-blobuploadtest</resourceGroup>
+		c. <appServicePlanName>asp-name</appServicePlanName>
+		d. <appName>app-name</appName>
+		e. <region>region</region>
+	6. Replace default strings on HelloController.java
+		a. Line 17,94. Enter your storage account name.
+		b. (user identity only) Line 20,88. Enter your Managed Identity's client-id.
+		c. Line 26,75. Enter your blob container name.
+		d. Line 27,33. Enter the name of the file to download.
+		e. Line 29,77. Change the file extension that fits your use case.
+	7. To deploy with maven, Run mvn clean package -DskipTests azure-webapp:deploy
+		a. To deploy with FTP Run mvn clean package -DskipTests.  You can rename the jar to app.jar, then drop the jar file into the wwwroot folder of your application.
